@@ -1,0 +1,98 @@
+.programs-overview { background: white; }
+
+.prog-detail-section {
+  background: white;
+  scroll-margin-top: 100px;
+}
+.prog-alt { background: var(--bg-main); }
+
+.prog-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
+  align-items: center;
+}
+.prog-reverse { direction: rtl; }
+.prog-reverse > * { direction: ltr; }
+
+.prog-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.prog-icon-big {
+  width: 120px; height: 120px;
+  border-radius: 30px;
+  background: color-mix(in srgb, var(--pc) 15%, white);
+  color: var(--pc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 40px rgba(from var(--pc) r g b / 0.25);
+  animation: float 4s ease-in-out infinite;
+}
+.prog-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+.prog-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  padding: 0.6rem 1rem;
+  background: white;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+.prog-meta-item svg { color: var(--pc); }
+
+.prog-desc {
+  color: var(--text-mid);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.prog-highlights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.prog-highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: rgba(from var(--pc) r g b / 0.05);
+  border-left: 3px solid var(--pc);
+  transition: 0.2s;
+}
+.prog-highlight-item:hover {
+  background: rgba(from var(--pc) r g b / 0.1);
+  transform: translateX(4px);
+}
+.phi-icon { color: var(--pc); flex-shrink: 0; }
+
+.tutoring-section {
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark2));
+}
+.tutoring-section .section-title { color: white; }
+.tutoring-section .section-sub { color: rgba(255,255,255,0.7); }
+
+@media (max-width:900px) {
+  .prog-detail-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .prog-reverse { direction: ltr; }
+  .prog-visual { flex-direction: row; align-items: center; }
+  .prog-icon-big { width: 80px; height: 80px; border-radius: 20px; min-width: 80px; }
+}
