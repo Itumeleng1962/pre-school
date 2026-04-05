@@ -13,7 +13,7 @@ const milestones = [
   { year: '2018', event: 'The Beacon Academy founded in Sophiatown' },
   { year: '2019', event: 'Registered as Private Limited Company' },
   { year: '2020', event: 'Launched digital parent communication platform' },
-  { year: '2021', event: 'Introduced Technology & Innovation programme' },
+  { year: '2021', event: 'Introduced Coding for Kids & Technology programme' },
   { year: '2022', event: 'Expanded to Arts, Creativity & Leadership streams' },
   { year: '2024', event: 'Launched Smart Check-In & Live Classroom system' },
 ]

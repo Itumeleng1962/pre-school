@@ -127,7 +127,7 @@ export default function Contact() {
                         <option value="">Select programme</option>
                         <option>Preschool (Full Day)</option>
                         <option>Preschool (Half Day)</option>
-                        <option>Technology & Innovation</option>
+                        <option>Coding for Kids & Technology</option>
                         <option>Arts & Creativity</option>
                         <option>Leadership Training</option>
                         <option>Primary Tutoring</option>

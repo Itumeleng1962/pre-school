@@ -26,12 +26,13 @@ const programs = [
     id: 'tech',
     icon: <Laptop size={40}/>,
     color: '#9b59b6',
-    title: 'Technology & Innovation',
+    title: 'Coding for Kids & Technology',
     ages: 'Ages 3 – 6',
     duration: '4 Sessions / Week',
-    desc: 'Introducing children to the digital world through hands-on, age-appropriate technology activities that spark curiosity and critical thinking.',
+    image: '/images/technology.png',
+    desc: 'Introducing children to the digital world through hands-on, age-appropriate technology activities that spark curiosity, critical thinking, and a strong foundation in coding for kids.',
     highlights: [
-      'Introduction to tablets & coding basics',
+      'Interactive Coding for Kids basics',
       'Age-appropriate robotics',
       'Creative digital storytelling',
       'Problem-solving and logical thinking',
@@ -121,6 +122,9 @@ export default function Programs() {
                 <h2 className="section-title" style={{ fontSize: '2rem', textAlign: 'left', marginBottom: '1rem' }}>
                   {p.title}
                 </h2>
+                {p.image && (
+                  <img src={p.image} alt={p.title} style={{ width: '100%', height: '240px', objectFit: 'cover', borderRadius: '16px', marginBottom: '1.5rem', border: `2px solid color-mix(in srgb, ${p.color} 30%, transparent)`, boxShadow: '0 10px 20px rgba(0,0,0,0.08)' }} />
+                )}
                 <p className="prog-desc">{p.desc}</p>
                 <h4 style={{ marginBottom: '1rem', color: 'var(--text-dark)', fontWeight: 800 }}>
                   Programme Highlights

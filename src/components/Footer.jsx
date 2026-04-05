@@ -48,7 +48,7 @@ export default function Footer() {
             <div className="footer-col">
               <h4 className="footer-col-title">Programs</h4>
               <ul className="footer-links">
-                {['Preschool (Ages 2–6)', 'Technology & Innovation', 'Arts & Creativity', 'Leadership Training', 'Primary Tutoring'].map(p => (
+                {['Preschool (Ages 2–6)', 'Coding for Kids & Tech', 'Arts & Creativity', 'Leadership Training', 'Primary Tutoring'].map(p => (
                   <li key={p}><Link to="/programs">{p}</Link></li>
                 ))}
               </ul>

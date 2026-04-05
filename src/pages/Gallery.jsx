@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Image as ImageIcon } from 'lucide-react'
 import './Gallery.css'
 
-const categories = ['All', 'Classroom', 'Technology', 'Arts & Crafts', 'Outdoor Play', 'Events']
+const categories = ['All', 'Classroom', 'Coding & Technology', 'Arts & Crafts', 'Outdoor Play', 'Events']
 
 const galleryItems = [
   { cat: 'Classroom', img: '/kids_playing.png', title: 'Happy Learning Classroom', color: '#1a73e8' },
@@ -12,7 +12,8 @@ const galleryItems = [
   { cat: 'Outdoor Play', img: '/outdoor_fun.png', title: 'Sunny Playground Fun', color: '#2ecc71' },
   { cat: 'Classroom', emoji: '🔢', title: 'Maths Play', color: '#FF6B35' },
   { cat: 'Events', emoji: '🎉', title: 'Prize-giving Day', color: '#f1c40f' },
-  { cat: 'Technology', emoji: '🤖', title: 'Robotics Fun', color: '#9b59b6' },
+  { cat: 'Coding & Technology', img: '/images/technology.png', title: 'Coding for Kids', color: '#9b59b6' },
+  { cat: 'Coding & Technology', emoji: '🤖', title: 'Robotics Fun', color: '#9b59b6' },
   { cat: 'Arts & Crafts', emoji: '✂️', title: 'Craft Corner', color: '#e91e8c' },
   { cat: 'Outdoor Play', emoji: '⚽', title: 'Sports Morning', color: '#2ecc71' },
   { cat: 'Classroom', emoji: '📖', title: 'Reading Circle', color: '#1a73e8' },

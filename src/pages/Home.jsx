@@ -66,7 +66,7 @@ const features = [
 /* ── Programs ─────────────────────────────── */
 const programs = [
   { icon: <Baby size={32}/>, label: 'Preschool', ages: 'Ages 2–6', color: '#1a73e8', desc: 'Play-based learning building foundational literacy, numeracy & social skills.' },
-  { icon: <Laptop size={32}/>, label: 'Tech & Innovation', ages: 'All Ages', color: '#9b59b6', desc: 'Coding, robotics & digital literacy for the future-ready child.' },
+  { icon: <Laptop size={32}/>, label: 'Coding & Technology', ages: 'All Ages', color: '#9b59b6', desc: 'Coding for kids, robotics & digital literacy for the future-ready child.' },
   { icon: <Palette size={32}/>, label: 'Arts & Creativity', ages: 'All Ages', color: '#e91e8c', desc: 'Music, visual arts & drama fostering expressive, creative minds.' },
   { icon: <Crown size={32}/>, label: 'Leadership', ages: 'Ages 4+', color: '#FF6B35', desc: 'Building confidence, teamwork & Christian character from an early age.' },
 ]
@@ -263,7 +263,7 @@ export default function Home() {
                   <p style={{ color: '#475569', margin: '1.5rem 0' }}>We offer a structured curriculum with music and movement, many extra mural activities, hot meals and much more...</p>
                   
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
-                    {['Structured Curriculum', 'Music', 'Movement', 'Extra Murals', 'Arts & Crafts', 'Space to play'].map((item, i) => (
+                    {['Structured Curriculum', 'Coding for Kids', 'Music', 'Movement', 'Extra Murals', 'Arts & Crafts', 'Space to play', 'Interactive Tech'].map((item, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#312e81', fontWeight: '700', fontSize: '0.85rem' }}>
                          <div style={{ color: '#ec4899' }}>👉</div> {item}
                       </div>
@@ -289,10 +289,12 @@ export default function Home() {
                   </div>
                </div>
 
-               <div className="lb-tall-card" style={{ background: '#06b6d4', padding: '2rem', textAlign: 'left', color: 'white' }}>
-                  <div className="lb-circle-num" style={{ color: '#06b6d4', marginBottom: '1.5rem' }}>3</div>
-                  <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1rem' }}>Expert Teachers</h3>
-                  <p style={{ opacity: 0.9, lineHeight: 1.6, fontSize: '0.95rem' }}>The Beacon Academy's teachers care about your child and want to see them thrive.</p>
+               <div className="lb-tall-card">
+                  <img src="/images/technology.png" className="lb-tall-img" alt="Coding for Kids"/>
+                  <div className="lb-tall-panel" style={{ background: '#06b6d4' }}>
+                     <div className="lb-circle-num" style={{ color: '#06b6d4' }}>3</div>
+                     <span style={{ color: 'white', fontWeight: '800', fontSize: '1.2rem' }}>Coding for Kids</span>
+                  </div>
                </div>
             </div>
          </div>
@@ -346,7 +348,7 @@ export default function Home() {
 
               {[
                 { icon: <Shield size={18}/>, title: 'Child Safety First', desc: 'QR check-ins, biometric access, real-time tracking, and CCTV monitoring.' },
-                { icon: <Laptop size={18}/>, title: 'Technology Integrated', desc: 'Digital learning tools, progress tracking, AI reports, and parent apps.' },
+                { icon: <Laptop size={18}/>, title: 'Coding & Tech', desc: 'Coding for kids, interactive activities, AI reports, and future-readiness.' },
                 { icon: <Heart size={18}/>, title: 'Loving & Christian', desc: 'Faith-based values, caring educators, and a nurturing community.' },
                 { icon: <Users size={18}/>, title: 'Small Class Sizes', desc: 'Personalised attention ensuring every child thrives at their own pace.' },
               ].map((item, i) => (
