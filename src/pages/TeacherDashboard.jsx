@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Users, Camera, BookOpen, Coffee, MessageSquare, Calendar, LogOut, CheckCircle, XCircle, Loader } from 'lucide-react'
+import { LayoutDashboard, Users, Camera, BookOpen, Coffee, MessageSquare, Calendar, LogOut, CheckCircle, XCircle, Loader, Search } from 'lucide-react'
 import { supabase } from '../supabaseClient'
 import './AdminDashboard.css'
 
@@ -29,6 +29,7 @@ const todaySchedule = [
 export default function TeacherDashboard() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('classroom')
+  const [searchTerm, setSearchTerm] = useState('')
   
   const [roster, setRoster] = useState([])
   const [loading, setLoading] = useState(true)
@@ -111,6 +112,10 @@ export default function TeacherDashboard() {
 
   const presentCount = roster.filter(s => attendance[s.child_name] === 'Present').length
 
+  const safeSearch = searchTerm.toLowerCase();
+  const filteredRoster = roster.filter(s => s.child_name?.toLowerCase().includes(safeSearch) || s.parent_name?.toLowerCase().includes(safeSearch) || s.email?.toLowerCase().includes(safeSearch))
+  const filteredMessages = messages.filter(m => m.text?.toLowerCase().includes(safeSearch) || m.parent_email?.toLowerCase().includes(safeSearch))
+
   const sidebarItems = [
     { id: 'classroom', icon: LayoutDashboard, label: 'My Classroom' },
     { id: 'attendance', icon: Users, label: 'Attendance' },
@@ -144,9 +149,21 @@ export default function TeacherDashboard() {
       <main className="admin-main">
         <header className="admin-header">
           <h2>{sidebarItems.find(i => i.id === activeTab)?.label}</h2>
+
+          <div className="admin-search-bar" style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', padding: '0.5rem 1rem', borderRadius: '20px', flex: 1, margin: '0 2rem', border: '1px solid #e2e8f0' }}>
+             <Search size={18} color="#64748b" style={{ marginRight: '0.8rem' }} />
+             <input 
+               type="text" 
+               placeholder={`Search for students, messages, or keywords...`} 
+               value={searchTerm} 
+               onChange={e => setSearchTerm(e.target.value)} 
+               style={{ border: 'none', background: 'transparent', width: '100%', outline: 'none', color: '#334155', fontSize: '0.95rem' }} 
+             />
+          </div>
+
           <div className="admin-user-info">
-            <span>Ms. Sarah Dlamini — Grade R</span>
-            <div className="admin-avatar" style={{ background: '#f39c12' }}>SD</div>
+             <span>Ms. Sarah Dlamini — Grade R</span>
+             <div className="admin-avatar" style={{ background: '#f39c12' }}>SD</div>
           </div>
         </header>
 
@@ -192,11 +209,11 @@ export default function TeacherDashboard() {
 
               <div className="admin-card">
                 <h3>Quick Class Roster</h3>
-                {roster.length === 0 ? (
-                  <p style={{ color: '#64748b', marginTop: '1rem' }}>No enrolled students found.</p>
+                {filteredRoster.length === 0 ? (
+                  <p style={{ color: '#64748b', marginTop: '1rem' }}>No students match your search.</p>
                 ) : (
                   <ul className="status-list" style={{ marginTop: '1rem' }}>
-                    {roster.map((s, i) => (
+                    {filteredRoster.map((s, i) => (
                       <li key={i}>
                         <span>{s.child_name} <span style={{fontSize: '0.8rem', color: '#94a3b8'}}>({s.child_age})</span></span>
                         {attendance[s.child_name] === 'Present'
@@ -219,11 +236,11 @@ export default function TeacherDashboard() {
               <h3 style={{ margin: 0 }}>Take Attendance</h3>
               <span className="status-badge ok">{presentCount}/{roster.length} Present</span>
             </div>
-            {roster.length === 0 ? (
-              <p style={{ color: '#64748b' }}>No students enrolled.</p>
+            {filteredRoster.length === 0 ? (
+              <p style={{ color: '#64748b' }}>No students match your search.</p>
             ) : (
               <ul className="status-list">
-                {roster.map(student => (
+                {filteredRoster.map(student => (
                   <li key={student.id}>
                     <span style={{ fontWeight: '500' }}>{student.child_name}</span>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -296,7 +313,7 @@ export default function TeacherDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {roster.map((s, i) => {
+                  {filteredRoster.map((s, i) => {
                     const badge = (val) => {
                       if (val === 'Excellent') return { bg: '#dcfce7', color: '#166534' }
                       if (val === 'On Track') return { bg: '#dbeafe', color: '#1e40af' }
@@ -357,7 +374,7 @@ export default function TeacherDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {roster.filter(s => attendance[s.child_name] === 'Present').map((s, i) => (
+                {filteredRoster.filter(s => attendance[s.child_name] === 'Present').map((s, i) => (
                   <tr key={i} style={{ borderBottom: '1px solid #e2e8f0' }}>
                     <td style={{ padding: '0.8rem', fontWeight: '500' }}>{s.child_name}</td>
                     <td style={{ padding: '0.8rem' }}>
@@ -415,26 +432,46 @@ export default function TeacherDashboard() {
 
         {/* MESSAGES */}
         {activeTab === 'messages' && (
-          <div className="admin-card" style={{ display: 'flex', flexDirection: 'column', height: '500px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
-              <h3 style={{ margin: 0 }}>Parent Inbox</h3>
-              <select 
-                value={selectedChildEmail} 
-                onChange={e => setSelectedChildEmail(e.target.value)}
-                style={{ padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', background: 'white' }}
-              >
-                <option value="">Select a parent to message...</option>
-                {roster.map(s => (
-                  <option key={s.email} value={s.email}>{s.child_name}'s Parent ({s.parent_name})</option>
-                ))}
-              </select>
-            </div>
-            
-            {selectedChildEmail ? (
+          <div className="admin-card" style={{ display: 'flex', flexDirection: 'column', height: '600px' }}>
+            <h3 style={{ margin: '0 0 1rem 0' }}>Parent Inbox</h3>
+            <div style={{ display: 'flex', gap: '1rem', flex: 1, overflow: 'hidden' }}>
+              {/* Sidebar Parent List */}
+              <div style={{ width: '280px', border: '1px solid #e2e8f0', borderRadius: '8px', display: 'flex', flexDirection: 'column', background: 'white' }}>
+                 <div style={{ padding: '0.75rem', borderBottom: '1px solid #e2e8f0' }}>
+                   <input 
+                     type="text" 
+                     placeholder="Search parents by name..." 
+                     value={searchTerm} 
+                     onChange={e => setSearchTerm(e.target.value)}
+                     style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #cbd5e1', outline: 'none' }}
+                   />
+                 </div>
+                 <div style={{ flex: 1, overflowY: 'auto' }}>
+                    {filteredRoster.length === 0 && <p style={{ padding: '1rem', color: '#64748b', fontSize: '0.85rem', textAlign: 'center' }}>No parents match your search.</p>}
+                    {filteredRoster.map(s => (
+                      <div 
+                        key={s.email} 
+                        onClick={() => setSelectedChildEmail(s.email)}
+                        style={{ 
+                          padding: '0.85rem 1rem', cursor: 'pointer', borderBottom: '1px solid #f1f5f9', 
+                          background: selectedChildEmail === s.email ? '#eff6ff' : 'white',
+                          borderLeft: selectedChildEmail === s.email ? '3px solid #3b82f6' : '3px solid transparent'
+                        }}
+                      >
+                         <strong style={{ display: 'block', fontSize: '0.9rem', color: selectedChildEmail === s.email ? '#1e40af' : '#0f172a' }}>{s.parent_name}</strong>
+                         <span style={{ fontSize: '0.8rem', color: '#64748b' }}>{s.child_name}'s Parent</span>
+                      </div>
+                    ))}
+                 </div>
+              </div>
+              
+              {/* Chat View */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                {selectedChildEmail ? (
               <>
                 <div style={{ flex: 1, border: '1px solid #e2e8f0', borderRadius: '8px', padding: '1rem', overflowY: 'auto', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {messages.length === 0 && <p style={{color: '#94a3b8', textAlign: 'center', marginTop: 'auto', marginBottom: 'auto'}}>No messages yet. Start the conversation!</p>}
-                  {messages.map((msg, i) => {
+                  {filteredMessages.length === 0 && <p style={{color: '#94a3b8', textAlign: 'center', marginTop: 'auto', marginBottom: 'auto'}}>No messages yet or none match your search.</p>}
+                  {filteredMessages.map((msg, i) => {
                     const isMe = msg.sender_role === 'teacher'
                     const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     return (
@@ -474,10 +511,12 @@ export default function TeacherDashboard() {
                 </div>
               </>
             ) : (
-              <div style={{ flex: 1, display:'flex', alignItems:'center', justifyContent:'center', border: '1px dashed #cbd5e1', borderRadius: '8px', color: '#64748b' }}>
-                Please select a parent from the dropdown above to view or send messages.
+              <div style={{ flex: 1, display:'flex', alignItems:'center', justifyContent:'center', border: '1px dashed #cbd5e1', borderRadius: '8px', color: '#64748b', background: '#f8fafc' }}>
+                Please select a parent from the left sidebar to view or send messages.
               </div>
             )}
+              </div>
+            </div>
           </div>
         )}
       </main>

@@ -1,6 +1,7 @@
 /* ============================================
    BRIGHT MINDS ACADEMY — Global Design System
    ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Brand Colors */
@@ -45,7 +46,7 @@
   --transition-slow: 0.5s ease;
 
   /* Fonts */
-  --font-heading: 'Poppins', sans-serif;
+  --font-heading: 'Fredoka', 'Comic Sans MS', sans-serif;
   --font-body:    'Nunito', sans-serif;
 }
 

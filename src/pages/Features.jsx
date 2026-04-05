@@ -194,7 +194,7 @@ export default function Features() {
         <div className="container">
           <h2 className="section-title">Ready to Experience<br/><span className="text-gradient">All These Features?</span></h2>
           <p className="section-sub">Join The Beacon Academy and give your child the most connected, safest early learning experience.</p>
-          <Link to="/contact" className="btn btn-primary" id="features-enrol-btn">
+          <Link to="/enroll" className="btn btn-primary" id="features-enrol-btn">
             Enrol Your Child Today <ArrowRight size={18}/>
           </Link>
         </div>

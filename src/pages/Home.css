@@ -618,3 +618,109 @@
   .testimonials-carousel { flex-direction: column; }
   .carousel-arrow { display: none; }
 }
+
+/* ══ CUTE PRESCHOOL STYLES ═════════════════ */
+.lb-change-lives {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 5rem 0;
+}
+.lb-img-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+.lb-big-img {
+  width: 380px; height: 380px;
+  border-radius: 50% 50% 50% 40%;
+  object-fit: cover;
+  position: absolute; top: 0; left: 0;
+  border: 8px solid white;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+.lb-small-img {
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute; bottom: 20px; right: 20px;
+  border: 10px solid white;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  z-index: 2;
+}
+.lb-pill {
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  background: white; padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+  font-weight: 700; color: var(--text-dark);
+  font-size: 0.95rem;
+}
+.lb-pill .icon-wrap {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+}
+.lb-pill-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin: 2rem 0;
+}
+
+.lb-grades-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  margin-top: 4rem; padding-bottom: 3rem;
+}
+.lb-grade-card {
+  background: white; padding: 2rem; border-radius: 40px;
+  text-align: center; display: flex; flex-direction: column;
+  align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  position: relative; margin-top: 80px;
+}
+.lb-grade-img {
+  width: 180px; height: 180px; border-radius: 50%;
+  object-fit: cover; margin-top: -110px; margin-bottom: 1.5rem;
+  border: 8px solid white; box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+.lb-grade-btn {
+  width: 90%; padding: 1rem; border-radius: 999px;
+  color: white; font-weight: 700; text-transform: uppercase;
+  margin-top: auto; margin-bottom: -3.5rem; letter-spacing: 0.05em;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.2s;
+}
+.lb-grade-btn:hover { transform: translateY(-3px); }
+
+.lb-structure-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem;
+  margin-top: 3rem; padding-bottom: 2rem;
+}
+.lb-tall-card {
+  height: 480px; border-radius: 40px; position: relative;
+  overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+}
+.lb-tall-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 1;
+}
+.lb-tall-panel {
+  position: relative; z-index: 2; height: 110px; width: 100%;
+  display: flex; align-items: center; gap: 1rem; padding: 0 1.5rem;
+}
+.lb-circle-num {
+  width: 44px; height: 44px; border-radius: 50%; background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.2rem; flex-shrink: 0;
+}
+.lb-squiggly {
+  position: absolute; pointer-events: none; opacity: 0.4;
+}
+
+@media (max-width: 950px) {
+  .lb-change-lives { grid-template-columns: 1fr; }
+  .lb-grades-grid { grid-template-columns: 1fr; gap: 6rem; padding-top: 4rem; }
+  .lb-structure-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 650px) {
+  .lb-structure-grid { grid-template-columns: 1fr; }
+  .lb-pill-grid { grid-template-columns: 1fr; }
+}

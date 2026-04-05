@@ -133,7 +133,7 @@ export default function Programs() {
                     </li>
                   ))}
                 </ul>
-                <Link to="/contact" className="btn btn-primary" style={{ marginTop: '1.5rem' }} id={`enrol-${p.id}-btn`}>
+                <Link to="/enroll" className="btn btn-primary" style={{ marginTop: '1.5rem' }} id={`enrol-${p.id}-btn`}>
                   Enrol in This Programme <ArrowRight size={16}/>
                 </Link>
               </div>

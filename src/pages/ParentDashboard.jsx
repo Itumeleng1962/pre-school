@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Baby, CreditCard, Camera, MessageSquare, Calendar, Activity, LogOut, Star, AlertCircle, Loader } from 'lucide-react'
+import { LayoutDashboard, Baby, CreditCard, Camera, MessageSquare, Calendar, Activity, LogOut, Star, AlertCircle, Loader, Search } from 'lucide-react'
 import { supabase } from '../supabaseClient'
 import './AdminDashboard.css'
 
@@ -29,6 +29,7 @@ const calendarEvents = [
 export default function ParentDashboard() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('overview')
+  const [searchTerm, setSearchTerm] = useState('')
   const [childData, setChildData] = useState(null)
   const [loading, setLoading] = useState(true)
   
@@ -96,6 +97,11 @@ export default function ParentDashboard() {
     { id: 'calendar', icon: Calendar, label: 'School Calendar' },
   ]
 
+  const safeSearch = searchTerm.toLowerCase();
+  const filteredMessages = messages.filter(m => m.text?.toLowerCase().includes(safeSearch))
+  const filteredActivityLog = activityLog.filter(a => a.text?.toLowerCase().includes(safeSearch))
+  const filteredPaymentHistory = paymentHistory.filter(p => p.description?.toLowerCase().includes(safeSearch) || p.status?.toLowerCase().includes(safeSearch))
+
   const handleSendMessage = async () => {
     if (newMessage.trim() && childData?.email) {
       const msg = {
@@ -159,6 +165,18 @@ export default function ParentDashboard() {
       <main className="admin-main">
         <header className="admin-header">
           <h2>{sidebarItems.find(i => i.id === activeTab)?.label || 'Parent Overview'}</h2>
+          
+          <div className="admin-search-bar" style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', padding: '0.5rem 1rem', borderRadius: '20px', flex: 1, margin: '0 2rem', border: '1px solid #e2e8f0' }}>
+             <Search size={18} color="#64748b" style={{ marginRight: '0.8rem' }} />
+             <input 
+               type="text" 
+               placeholder={`Search for activities, messages, or payments...`} 
+               value={searchTerm} 
+               onChange={e => setSearchTerm(e.target.value)} 
+               style={{ border: 'none', background: 'transparent', width: '100%', outline: 'none', color: '#334155', fontSize: '0.95rem' }} 
+             />
+          </div>
+
           <div className="admin-user-info">
             <span>{childData.parent_name}</span>
             <div className="admin-avatar" style={{ background: '#7c3aed' }}>
@@ -197,7 +215,7 @@ export default function ParentDashboard() {
               <div className="admin-card">
                 <h3>{childData.child_name}'s Day — Live Feed</h3>
                 <ul className="activity-list" style={{ marginTop: '1rem' }}>
-                  {activityLog.slice(0, 4).map((a, i) => (
+                  {filteredActivityLog.slice(0, 4).map((a, i) => (
                     <li key={i}><strong>{a.time}:</strong> {a.emoji} {a.text}</li>
                   ))}
                 </ul>
@@ -290,7 +308,7 @@ export default function ParentDashboard() {
               <span className="status-badge ok">All Activities Complete</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {activityLog.map((a, i) => (
+              {filteredActivityLog.map((a, i) => (
                 <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
                   <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>{a.emoji}</span>
                   <div>
@@ -345,7 +363,7 @@ export default function ParentDashboard() {
                  </tr>
                </thead>
                <tbody>
-                 {paymentHistory.map((p, i) => (
+                 {filteredPaymentHistory.map((p, i) => (
                    <tr key={i} style={{ borderBottom: '1px solid #e2e8f0' }}>
                      <td style={{ padding: '0.8rem', color: '#475569' }}>{p.date}</td>
                      <td style={{ padding: '0.8rem' }}>{p.description}</td>
@@ -366,7 +384,7 @@ export default function ParentDashboard() {
               <span className="status-badge ok">Grade R Teacher</span>
             </div>
             <div style={{ flex: 1, border: '1px solid #e2e8f0', borderRadius: '8px', padding: '1rem', overflowY: 'auto', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-               {messages.map((msg, i) => {
+               {filteredMessages.map((msg, i) => {
                  const isMe = msg.sender_role === 'parent'
                  const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                  return (

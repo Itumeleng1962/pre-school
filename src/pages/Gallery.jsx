@@ -6,10 +6,10 @@ import './Gallery.css'
 const categories = ['All', 'Classroom', 'Technology', 'Arts & Crafts', 'Outdoor Play', 'Events']
 
 const galleryItems = [
-  { cat: 'Classroom', img: '/images/classroom.png', title: 'Modern Classroom', color: '#1a73e8' },
-  { cat: 'Technology', img: '/images/technology.png', title: 'Tech Integration', color: '#9b59b6' },
-  { cat: 'Arts & Crafts', img: '/images/art.png', title: 'Creative Painting', color: '#e91e8c' },
-  { cat: 'Outdoor Play', img: '/images/outdoor.png', title: 'Safe Playground', color: '#2ecc71' },
+  { cat: 'Classroom', img: '/kids_playing.png', title: 'Happy Learning Classroom', color: '#1a73e8' },
+  { cat: 'Classroom', img: '/teacher_reading.png', title: 'Story Time', color: '#9b59b6' },
+  { cat: 'Arts & Crafts', img: '/arts_crafts.png', title: 'Creative Finger Painting', color: '#e91e8c' },
+  { cat: 'Outdoor Play', img: '/outdoor_fun.png', title: 'Sunny Playground Fun', color: '#2ecc71' },
   { cat: 'Classroom', emoji: '🔢', title: 'Maths Play', color: '#FF6B35' },
   { cat: 'Events', emoji: '🎉', title: 'Prize-giving Day', color: '#f1c40f' },
   { cat: 'Technology', emoji: '🤖', title: 'Robotics Fun', color: '#9b59b6' },

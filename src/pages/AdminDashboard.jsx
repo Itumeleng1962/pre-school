@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Users, CreditCard, Video, Activity, FileText, Bell, LogOut, Settings, ClipboardList, CheckCircle } from 'lucide-react'
+import { LayoutDashboard, Users, CreditCard, Video, Activity, FileText, Bell, LogOut, Settings, ClipboardList, CheckCircle, Search } from 'lucide-react'
 import { supabase } from '../supabaseClient'
 import emailjs from '@emailjs/browser'
 import './AdminDashboard.css'
@@ -8,6 +8,7 @@ import './AdminDashboard.css'
 export default function AdminDashboard() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('dashboard')
+  const [searchTerm, setSearchTerm] = useState('')
 
   // States
   const [students, setStudents] = useState([])
@@ -45,6 +46,11 @@ export default function AdminDashboard() {
   }
 
   const enrolledStudents = applications.filter(a => ['Enrolled', 'Payment Received'].includes(a.status))
+
+  const safeSearch = searchTerm.toLowerCase();
+  const filteredApplications = applications.filter(a => a.child_name?.toLowerCase().includes(safeSearch) || a.parent_name?.toLowerCase().includes(safeSearch) || a.email?.toLowerCase().includes(safeSearch))
+  const filteredEnrolledStudents = enrolledStudents.filter(a => a.child_name?.toLowerCase().includes(safeSearch) || a.parent_name?.toLowerCase().includes(safeSearch) || a.email?.toLowerCase().includes(safeSearch))
+  const filteredAnnouncements = announcements.filter(a => a.text?.toLowerCase().includes(safeSearch))
 
   const handleSendAnnouncement = async () => {
     if (newAnnouncement) {
@@ -106,6 +112,18 @@ export default function AdminDashboard() {
       <main className="admin-main">
         <header className="admin-header">
           <h2>{sidebarItems.find(i => i.id === activeTab)?.label || 'Overview Dashboard'}</h2>
+          
+          <div className="admin-search-bar" style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', padding: '0.5rem 1rem', borderRadius: '20px', flex: 1, margin: '0 2rem', border: '1px solid #e2e8f0' }}>
+             <Search size={18} color="#64748b" style={{ marginRight: '0.8rem' }} />
+             <input 
+               type="text" 
+               placeholder={`Search for students, parents, or keywords...`} 
+               value={searchTerm} 
+               onChange={e => setSearchTerm(e.target.value)} 
+               style={{ border: 'none', background: 'transparent', width: '100%', outline: 'none', color: '#334155', fontSize: '0.95rem' }} 
+             />
+          </div>
+
           <div className="admin-user-info">
             <span>Welcome, Itumeleng</span>
             <div className="admin-avatar">IM</div>
@@ -149,10 +167,10 @@ export default function AdminDashboard() {
               <div className="admin-card">
                 <h3>Live Activity Feed</h3>
                 <ul className="activity-list">
-                  {announcements.map((ann, i) => (
+                  {filteredAnnouncements.map((ann, i) => (
                     <li key={i}><strong>{ann.time}:</strong> Admin Announcement: "{ann.text}"</li>
                   ))}
-                  {announcements.length === 0 && (
+                  {filteredAnnouncements.length === 0 && (
                     <p style={{color: '#64748b', fontSize: '0.9rem', padding: '1rem 0'}}>No recent announcements from Admin.</p>
                   )}
                   <li><strong>08:30 AM:</strong> Morning snacks served in Grade R.</li>
@@ -179,11 +197,11 @@ export default function AdminDashboard() {
           <div className="admin-card">
             <h3 style={{marginBottom: '1rem'}}>Incoming Applications</h3>
             
-            {applications.length === 0 ? (
-               <p style={{color: '#64748b', textAlign: 'center', padding: '2rem 0'}}>No applications received yet.</p>
+            {filteredApplications.length === 0 ? (
+               <p style={{color: '#64748b', textAlign: 'center', padding: '2rem 0'}}>No applications found.</p>
             ) : (
                 <div style={{ display: 'grid', gap: '1rem' }}>
-                  {applications.map((app, i) => (
+                  {filteredApplications.map((app, i) => (
                     <div key={i} style={{ border: '1px solid #e2e8f0', borderRadius: '8px', padding: '1.5rem', background: '#f8fafc' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                         <div>
@@ -337,8 +355,8 @@ export default function AdminDashboard() {
           <div className="admin-card">
             <h3 style={{marginBottom: '1rem'}}>Enrolled Students Directory</h3>
             
-            {enrolledStudents.length === 0 ? (
-               <p style={{color: '#64748b', textAlign: 'center', padding: '2rem 0'}}>No enrolled students found in the applications database.</p>
+            {filteredEnrolledStudents.length === 0 ? (
+               <p style={{color: '#64748b', textAlign: 'center', padding: '2rem 0'}}>No enrolled students found.</p>
             ) : (
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{width: '100%', textAlign: 'left', borderCollapse: 'collapse', minWidth: '600px'}}>
@@ -352,7 +370,7 @@ export default function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {enrolledStudents.map((app, i) => (
+                      {filteredEnrolledStudents.map((app, i) => (
                         <tr key={i} style={{borderBottom: '1px solid #e2e8f0'}}>
                           <td style={{padding: '1rem', fontWeight: '500'}}>{app.child_name} ({app.child_age})</td>
                           <td style={{padding: '1rem'}}>{app.program}</td>
@@ -414,8 +432,8 @@ export default function AdminDashboard() {
           <div className="admin-card">
             <h3>Payment Records</h3>
             <p style={{color: '#64748b', fontSize: '0.9rem', marginBottom: '1rem'}}>Showing all applications where payment has been received.</p>
-            {applications.filter(a => a.status === 'Payment Received' || a.status === 'Enrolled').length === 0 ? (
-              <p style={{color: '#64748b', textAlign: 'center', padding: '2rem 0'}}>No payments received yet.</p>
+            {filteredApplications.filter(a => a.status === 'Payment Received' || a.status === 'Enrolled').length === 0 ? (
+              <p style={{color: '#64748b', textAlign: 'center', padding: '2rem 0'}}>No payments form found.</p>
             ) : (
               <table style={{width: '100%', textAlign: 'left', borderCollapse: 'collapse'}}>
                 <thead>
@@ -428,7 +446,7 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {applications.filter(a => a.status === 'Payment Received' || a.status === 'Enrolled').map((app, i) => (
+                  {filteredApplications.filter(a => a.status === 'Payment Received' || a.status === 'Enrolled').map((app, i) => (
                     <tr key={i} style={{borderBottom: '1px solid #e2e8f0'}}>
                       <td style={{padding: '1rem'}}>{app.parent_name}</td>
                       <td style={{padding: '1rem'}}>{app.child_name}</td>
@@ -525,11 +543,11 @@ export default function AdminDashboard() {
                 />
                <button className="btn btn-primary" style={{marginTop: '1rem'}} onClick={handleSendAnnouncement}>Push Notification to Parents</button>
              </div>
-             {announcements.length > 0 && (
+             {filteredAnnouncements.length > 0 && (
                 <>
                   <h4 style={{marginTop: '2rem'}}>Recent Announcements</h4>
                   <ul className="activity-list" style={{marginTop: '1rem'}}>
-                     {announcements.map((ann, i) => <li key={i}><strong>{ann.time}:</strong> {ann.text}</li>)}
+                     {filteredAnnouncements.map((ann, i) => <li key={i}><strong>{ann.time}:</strong> {ann.text}</li>)}
                   </ul>
                 </>
              )}
