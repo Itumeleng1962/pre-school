@@ -81,9 +81,9 @@ export default function Navbar() {
         {/* CTA */}
         <div className="navbar-cta" style={{ gap: '0.8rem' }}>
           <Link to="/login" className="btn btn-outline nav-enroll-btn" style={{ padding: '0.5rem 1rem', border: '1px solid var(--primary)', color: 'var(--primary)', background: 'transparent' }}>
-            Staff Login
+            Portal Login
           </Link>
-          <Link to="/contact" className="btn btn-primary nav-enroll-btn">
+          <Link to="/enroll" className="btn btn-primary nav-enroll-btn">
             Enrol Now
           </Link>
         </div>
@@ -115,7 +115,7 @@ export default function Navbar() {
             )}
           </div>
         ))}
-        <Link to="/contact" className="btn btn-primary" style={{ margin: '1rem 1.5rem' }}>
+        <Link to="/enroll" className="btn btn-primary" style={{ margin: '1rem 1.5rem' }}>
           Enrol Now
         </Link>
       </div>

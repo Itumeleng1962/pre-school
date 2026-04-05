@@ -9,9 +9,12 @@ import Programs from './pages/Programs'
 import Features from './pages/Features'
 import Gallery from './pages/Gallery'
 import Contact from './pages/Contact'
+import Enrollment from './pages/Enrollment'
+import Checkout from './pages/Checkout'
 import Login from './pages/Login'
 import AdminDashboard from './pages/AdminDashboard'
 import TeacherDashboard from './pages/TeacherDashboard'
+import ParentDashboard from './pages/ParentDashboard'
 import './pages/About.css'
 import './App.css'
 
@@ -37,7 +40,7 @@ function ScrollHandler() {
 
 export default function App() {
   const location = useLocation()
-  const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/teacher')
+  const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/teacher') || location.pathname.startsWith('/parent')
 
   return (
     <div className="app">
@@ -53,9 +56,12 @@ export default function App() {
           <Route path="/features" element={<Features />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/enroll" element={<Enrollment />} />
+          <Route path="/pay" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
+          <Route path="/parent" element={<ParentDashboard />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
